@@ -26,7 +26,7 @@ class HuffmanDecoder:
         for bit in encodedData:
             if bit=='0':
                 node = node.left
-            else:
+            elif bit=='1':
                 node = node.right
             
             if node.isLeaf():
