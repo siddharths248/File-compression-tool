@@ -18,6 +18,7 @@ class HuffmanNode:
 
 def buildHuffmanTree(frequency_table):
 
+    #builds huffman tree from frequency table
     heap = [HuffmanNode(freq,char) for (char,freq) in frequency_table.items()]
     heapq.heapify(heap)
 
@@ -35,6 +36,7 @@ def buildHuffmanTree(frequency_table):
 
 def generateCodes(node, prefix='', codesList = None):
 
+    #generates huffman codes for each character from tree root
     if (codesList is None):
         codesList = {}
 
