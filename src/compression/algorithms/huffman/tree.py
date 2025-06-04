@@ -15,5 +15,33 @@ class HuffmanNode:
     def isLeaf(self):
         return (self.left is None) and (self.right is None)
     
+
+def buildHuffmanTree(frequency_table):
+
+    heap = [HuffmanNode(freq,char) for (char,freq) in frequency_table.items()]
+    heapq.heapify(heap)
+
+    while (len(heap)>1):
+        left = heapq.heappop(heap)
+        right = heapq.heappop(heap)
+        mergedNode = HuffmanNode(left.freq+right.freq, left = left, right=right)
+        heapq.heappush(mergedNode)
     
-    
+    if heap:
+        return heap[0]
+    else:
+        return None
+
+
+def generateCodes(node, prefix='', codesList = None):
+
+    if (codesList is None):
+        codesList = {}
+
+    if (node is not None):
+        if (node.char is not None):
+            codesList[node.char] = prefix
+        else:
+            generateCodes(node.left, prefix+'0', codesList)
+            generateCodes(node.right, prefix+'1', codesList)
+    return codesList
