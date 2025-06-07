@@ -18,6 +18,8 @@ class HuffmanDecoder:
 
         #decodes encoded string using huffman tree
         if (self.treeRoot is None):
+            if encodedData=="":
+                return ""
             raise ValueError("Huffman tree must be set before decoding")
 
         decodedChars = []
