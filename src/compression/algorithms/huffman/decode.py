@@ -14,7 +14,7 @@ class HuffmanDecoder:
         self.codesList = codesList
 
 
-    def decode(self,encodedData):
+    def decode(self,encodedData: str) -> str:
 
         #decodes encoded string using huffman tree
         if (self.treeRoot is None):
@@ -28,6 +28,8 @@ class HuffmanDecoder:
                 node = node.left
             elif bit=='1':
                 node = node.right
+            else:
+                raise ValueError(f"Invalid bit in encoded data: '{bit}'")
             
             if node.isLeaf():
                 decodedChars.append(node.char)
@@ -35,7 +37,7 @@ class HuffmanDecoder:
         return ''.join(decodedChars)
     
     
-    def decodeWithCodesList(self, encodedData):
+    def decodeWithCodesList(self, encodedData: str) -> str:
 
         #decodes encoded data using codesList
         if (self.codesList is None):
@@ -51,5 +53,7 @@ class HuffmanDecoder:
                 decodedChars.append(code_to_char[code])
                 code = ''
         
+        if code:
+            raise ValueError("Encoded data does not match codes_dict")
         return ''.join(decodedChars)
     

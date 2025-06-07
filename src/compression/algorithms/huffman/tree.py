@@ -26,7 +26,7 @@ def buildHuffmanTree(frequency_table):
         left = heapq.heappop(heap)
         right = heapq.heappop(heap)
         mergedNode = HuffmanNode(left.freq+right.freq, left = left, right=right)
-        heapq.heappush(mergedNode)
+        heapq.heappush(heap,mergedNode)
     
     if heap:
         return heap[0]
