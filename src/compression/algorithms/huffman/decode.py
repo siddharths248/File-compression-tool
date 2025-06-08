@@ -25,6 +25,9 @@ class HuffmanDecoder:
         decodedChars = []
 
         node = self.treeRoot
+
+        if node.isLeaf():
+            return node.char * (len(encodedData) if encodedData else 1)
         for bit in encodedData:
             if bit=='0':
                 node = node.left

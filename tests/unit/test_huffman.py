@@ -22,17 +22,14 @@ class TestHuffman(unittest.TestCase):
         self.assertEqual(freq_table['d'], 1)
 
     def test_encoding_and_decoding_with_tree(self):
-        # Encode and decode using the tree
         decoded = self.decoder.decode(self.encoded)
         self.assertEqual(decoded, self.sample_text)
 
-    def test_encoding_and_decoding_with_codes_dict(self):
-        # Encode and decode using the codes dictionary
+    def test_encoding_and_decoding_with_codesList(self):
         decoded = self.decoder.decodeWithCodesList(self.encoded)
         self.assertEqual(decoded, self.sample_text)
 
-    def test_codes_dict_is_prefix_free(self):
-        # Huffman codes must be prefix-free
+    def test_codesList_is_prefix_free(self):
         codes = list(self.codesList.values())
         for i, code1 in enumerate(codes):
             for j, code2 in enumerate(codes):
@@ -46,6 +43,21 @@ class TestHuffman(unittest.TestCase):
         empty_decoder = HuffmanDecoder(treeRoot=empty_encoder.getTreeRoot(), codesList=empty_encoder.getCodesList())
         decoded = empty_decoder.decode(encoded)
         self.assertEqual(decoded, "")
+
+    def test_invalid_bit_in_encoded_data(self):
+        invalid_encoded = "02a1"
+        with self.assertRaises(ValueError):
+            self.decoder.decode(invalid_encoded)
+
+    def test_single_character(self):
+        encoder = HuffmanEncoder()
+        encoded = encoder.encode("aaaaa")
+        decoder = HuffmanDecoder(
+            treeRoot=encoder.getTreeRoot(),
+            codesList=encoder.getCodesList()
+        )
+        decoded = decoder.decode(encoded)
+        self.assertEqual(decoded, "aaaaa")
 
 if __name__ == '__main__':
     unittest.main()

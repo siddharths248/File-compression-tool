@@ -42,7 +42,7 @@ def generateCodes(node, prefix='', codesList = None):
 
     if (node is not None):
         if (node.char is not None):
-            codesList[node.char] = prefix
+            codesList[node.char] = prefix if prefix else '0'
         else:
             generateCodes(node.left, prefix+'0', codesList)
             generateCodes(node.right, prefix+'1', codesList)
