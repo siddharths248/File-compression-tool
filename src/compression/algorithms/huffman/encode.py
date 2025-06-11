@@ -1,4 +1,5 @@
 from .tree import buildHuffmanTree, generateCodes
+from bitarray import bitarray
 
 class HuffmanEncoder:
 
@@ -20,12 +21,12 @@ class HuffmanEncoder:
         self.treeRoot = buildHuffmanTree(self.frequency_table)
         self.codesList = generateCodes(self.treeRoot)
     
-    def encode(self, data: str) -> str:
+    def encode(self, data: str) -> bytes:
         #encodes input data
         if (self.codesList is None):
             self.encoderSetup(data)
         encodedString = ''.join(self.codesList[char] for char in data)
-        return encodedString
+        return bitarray(encodedString).tobytes()
     
     def getCodesList(self) -> dict:
         return self.codesList

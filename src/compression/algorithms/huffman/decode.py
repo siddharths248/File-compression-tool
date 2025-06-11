@@ -1,4 +1,5 @@
 from .tree import HuffmanNode
+from bitarray import bitarray
 
 class HuffmanDecoder:
 
@@ -14,8 +15,11 @@ class HuffmanDecoder:
         self.codesList = codesList
 
 
-    def decode(self,encodedData: str) -> str:
-
+    def decode(self,encodedData: bytes, bit_length: int) -> str:
+        bits = bitarray()
+        bits.frombytes(encodedData)
+        bits = bits[:bit_length]
+        bitStr = bits.to01
         #decodes encoded string using huffman tree
         if (self.treeRoot is None):
             if encodedData=="":
@@ -27,8 +31,8 @@ class HuffmanDecoder:
         node = self.treeRoot
 
         if node.isLeaf():
-            return node.char * (len(encodedData) if encodedData else 1)
-        for bit in encodedData:
+            return node.char * (len(bitStr) if bitStr else 1)
+        for bit in bitStr:
             if bit=='0':
                 node = node.left
             elif bit=='1':
