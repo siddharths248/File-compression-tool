@@ -15,23 +15,24 @@ class HuffmanDecoder:
         self.codesList = codesList
 
 
-    def decode(self,encodedData: bytes, bit_length: int) -> str:
+    def decode(self,encodedData: bytes, bit_length: int) -> bytes:
+
+        if self.treeRoot is None:
+            if encodedData == b"":
+                return b""
+            raise ValueError("Huffman tree must be set before decoding")
         bits = bitarray()
         bits.frombytes(encodedData)
         bits = bits[:bit_length]
         bitStr = bits.to01
-        #decodes encoded string using huffman tree
-        if (self.treeRoot is None):
-            if encodedData=="":
-                return ""
-            raise ValueError("Huffman tree must be set before decoding")
+        
 
         decodedChars = []
 
         node = self.treeRoot
 
         if node.isLeaf():
-            return node.char * (len(bitStr) if bitStr else 1)
+            return bytes([node.char]*len(bitStr))
         for bit in bitStr:
             if bit=='0':
                 node = node.left
@@ -43,7 +44,7 @@ class HuffmanDecoder:
             if node.isLeaf():
                 decodedChars.append(node.char)
                 node = self.treeRoot
-        return ''.join(decodedChars)
+        return bytes(decodedChars)
     
     
     def decodeWithCodesList(self, encodedData: str) -> str:
@@ -54,15 +55,15 @@ class HuffmanDecoder:
 
         decodedChars = []
         code = ''
-        code_to_char = {v : k for (k,v) in self.codesList.items()}
+        code_to_byte = {v : k for (k,v) in self.codesList.items()}
 
         for bit in encodedData:
             code += bit
-            if (code in code_to_char):
-                decodedChars.append(code_to_char[code])
+            if (code in code_to_byte):
+                decodedChars.append(code_to_byte[code])
                 code = ''
         
         if code:
             raise ValueError("Encoded data does not match codes_dict")
-        return ''.join(decodedChars)
+        return bytes(decodedChars)
     
