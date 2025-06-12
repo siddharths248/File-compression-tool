@@ -9,7 +9,10 @@ def mtfEncode(s):
         idx = table.index(s)
         result.append(idx)
 
-        
+        table.pop(idx)
+        table.insert(0,char)
+    
+    return (result,symbols)
 
     
 
