@@ -1,6 +1,15 @@
 from collections import defaultdict
 
-def bwtDecode(bwtInput: str, ogIdx: int) -> str:
+def bwtDecode(bwtInput: str, ogIdx: int, endMarker: str = '$') -> str:
+
+    if not bwtInput:
+        return ""
+    
+    if endMarker not in bwtInput:
+        raise ValueError("End marker not found in BWT string")
+    if not (0<=ogIdx< len(bwtInput)):
+        raise ValueError("original index out of bounds for BWT decode")
+    
     length = len(bwtInput)
     
     sorted_bwt = sorted(bwtInput)
@@ -28,5 +37,5 @@ def bwtDecode(bwtInput: str, ogIdx: int) -> str:
         current_row = next_row[current_row]
     
     # Remove the end marker and reverse
-    decoded = ''.join(reversed(result)).rstrip('\0')
+    decoded = ''.join(reversed(result)).rstrip(endMarker)
     return decoded
