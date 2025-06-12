@@ -7,24 +7,27 @@ def pick_end_marker(s, pref=('$', '\0', chr(1), chr(2))):
 
 
 
-def bwtEncode(s : str, endMarker: str=None):
+def bwtEncode(data : bytes, endMarker: int=0):
 
-    if not isinstance(s,str):
-        raise TypeError("Input must be a string")
-    if endMarker is None:
-        endMarker = pick_end_marker(s)
-    if endMarker in s:
-        raise ValueError(f"End marker '{endMarker}' found in input")
+    if not isinstance(data,bytes):
+        raise TypeError("Input must be bytes")
+    if not (0 <= endMarker <= 255):
+        raise ValueError("End marker must be a single byte value (0-255).")
+    if endMarker in data:
 
-    s += endMarker
+        for candidate in range(256):
+            if candidate not in data:
+                endMarker = candidate
+                break
+        else:
+            raise ValueError("No suitable end marker found in input data.") 
 
-    if not s:
-        return "",0
+    data += bytes([endMarker])
+    n = len(data)
     
-    table = [s[i:] + s[:i] for i in range(len(s))]
+    table = [data[i:] + data[:i] for i in range(n)]
     tableSorted = sorted(table)
-    lastColumn = [row[-1] for row in tableSorted]
-    ogIdx = tableSorted.index(s)
+    lastColumn = bytes(row[-1] for row in tableSorted)
+    ogIdx = tableSorted.index(data)
 
-    return (''.join(lastColumn),ogIdx, endMarker)
-
+    return lastColumn, ogIdx, endMarker
