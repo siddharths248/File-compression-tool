@@ -1,4 +1,5 @@
 import heapq
+from bitarray import bitarray
 
 class HuffmanNode:
 
@@ -42,7 +43,8 @@ def generateCodes(node, prefix='', codesList = None):
 
     if (node is not None):
         if (node.char is not None):
-            codesList[node.char] = prefix if prefix else '0'
+            prefBits = bitarray(prefix) if prefix else bitarray('0')
+            codesList[node.char] = prefBits
         else:
             generateCodes(node.left, prefix+'0', codesList)
             generateCodes(node.right, prefix+'1', codesList)

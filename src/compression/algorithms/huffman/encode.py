@@ -25,10 +25,10 @@ class HuffmanEncoder:
         #encodes input data
         if (self.codesList is None):
             self.encoderSetup(data)
-        encodedString = ''.join(self.codesList[byte] for byte in data)
-        bits = bitarray(encodedString)
+        bits = bitarray()
+        for byte in data:
+            bits.extend(self.codesList[byte])
         return bits.tobytes(),len(bits)
-        return bitarray(encodedString).tobytes()
     
     def getCodesList(self) -> dict:
         return self.codesList

@@ -47,23 +47,21 @@ class HuffmanDecoder:
         return bytes(decodedChars)
     
     
-    def decodeWithCodesList(self, encodedData: str) -> str:
+    def decodeWithCodesList(self, encodedData: bytes, bit_length: int) -> bytes:
 
         #decodes encoded data using codesList
         if (self.codesList is None):
             raise ValueError("CodesList must be set before decoding")
 
-        decodedChars = []
+        
         code = ''
         code_to_byte = {v : k for (k,v) in self.codesList.items()}
 
-        for bit in encodedData:
-            code += bit
-            if (code in code_to_byte):
-                decodedChars.append(code_to_byte[code])
-                code = ''
-        
-        if code:
-            raise ValueError("Encoded data does not match codes_dict")
+        bits = bitarray()
+        bits.frombytes(encodedData)
+        bits = bits[:bit_length]
+
+        decodedChars = bitarray.decode(bits, self.codesList)
+
         return bytes(decodedChars)
     

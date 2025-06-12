@@ -23,7 +23,7 @@ def mtfEncode(data : bytes):
         table.pop(idx)
         table.insert(0,byte)
     
-    return (result,symbols)
+    return (bytes(result),symbols)
 
     
 
