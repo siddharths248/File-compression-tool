@@ -9,8 +9,6 @@ def pick_end_marker(s, pref=('$', '\0', chr(1), chr(2))):
 
 def bwtEncode(data : bytes, endMarker: int=0):
 
-    if not isinstance(data,bytes):
-        raise TypeError("Input must be bytes")
     if not (0 <= endMarker <= 255):
         raise ValueError("End marker must be a single byte value (0-255).")
     if endMarker in data:

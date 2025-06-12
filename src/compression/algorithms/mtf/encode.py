@@ -1,27 +1,27 @@
 
-def mtfEncode(s):
+def mtfEncode(data : bytes):
 
-    if not isinstance(s,str):
-        raise TypeError("Input must be a string")
+    if not isinstance(data, (bytes, bytearray())):
+        raise TypeError("Input must be bytes or bytearray")
     
-    if not s:
+    if not data:
         return ([],[])
 
 
-    symbols = list(dict.fromkeys(s))
+    symbols = list(dict.fromkeys(data))
     table = symbols.copy()
     result = []
 
-    for char in s:
+    for byte in data:
         
-        if char not in table:
-            raise ValueError(f"Symbol '{char}' not found in symbol table")
+        if byte not in table:
+            raise ValueError(f"Symbol '{byte}' not found in symbol table")
 
-        idx = table.index(s)
+        idx = table.index(byte)
         result.append(idx)
 
         table.pop(idx)
-        table.insert(0,char)
+        table.insert(0,byte)
     
     return (result,symbols)
 

@@ -2,7 +2,7 @@
 def mtfDecode(indices, symbolTable):
 
     if not symbolTable or not indices:
-        return ""
+        return b''
     
 
     table = list(symbolTable)
@@ -14,10 +14,10 @@ def mtfDecode(indices, symbolTable):
             raise TypeError(f"Index '{idx}' is not an integer")
         if idx<0 or idx>=len(table):
             raise ValueError(f"Index '{idx}' out of bounds")
-        char = table[idx]
-        output.append(char)
+        byte = table[idx]
+        output.append(byte)
 
         table.pop(idx)
-        table.insert(0,char)
+        table.insert(0,byte)
 
-    return ''.join(output)
+    return bytes(output)
